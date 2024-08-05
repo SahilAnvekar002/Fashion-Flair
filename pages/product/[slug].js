@@ -199,7 +199,7 @@ export async function getServerSideProps(context) {
     slugs = data.slugs;
   }
 
-  const pincodeRes = await fetch('http://localhost:3000/api/pincode');
+  const pincodeRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
   const pincodes = await pincodeRes.json();
 
   return { props: { product, slugs, pincodes } }
