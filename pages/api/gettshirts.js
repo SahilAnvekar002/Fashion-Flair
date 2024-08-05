@@ -1,8 +1,24 @@
 import connectToMongo from "@/middleware/connectToMongo";
 import Product from "@/models/Product";
 
+const allowedOrigins = ['https://fashion-flair-chi.vercel.app'];
+
 const handler = async (req, res) => {
-    let products = await Product.find({ category: 'T-Shirt', availableQty: { $gt: 0 }});
+
+    // CORS handling
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    // Handle preflight OPTIONS request
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
+    let products = await Product.find({ category: 'T-Shirt', availableQty: { $gt: 0 } });
     let tshirts = {};
 
     for (let product of products) {
