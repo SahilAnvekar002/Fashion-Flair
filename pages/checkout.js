@@ -379,7 +379,7 @@ function Checkout({ cart, addToCart, removeFromCart, clearCart, total, user, pin
 
 export async function getServerSideProps(context) {
 
-  const pincodeRes = await fetch('http://localhost:3000/api/pincode');
+  const pincodeRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
   const pincodes = await pincodeRes.json();
 
   return { props: { pincodes } }
